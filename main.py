@@ -33,6 +33,10 @@ def follow_link():
     except ValueError:
         print("Пожалуйста, введите корректный номер.")
 
+def return_to_initial_query(initial_url):
+    browser.get(initial_url)
+    time.sleep(3)
+
 def main():
     global browser
     browser = webdriver.Chrome()
@@ -42,11 +46,14 @@ def main():
     query = input("Введите запрос для поиска на Википедии: ")
     search_wikipedia(query)
 
+    initial_url = browser.current_url  # Сохраняем URL первоначального запроса
+
     while True:
         print("\nВыберите действие:")
         print("1. Просмотреть параграфы текущей статьи")
         print("2. Перейти на интересующую вас страницу")
-        print("3. Выйти из программы")
+        print("3. Вернуться к первоначальному запросу")
+        print("4. Выйти из программы")
 
         choice = input("Введите номер действия: ")
 
@@ -55,6 +62,8 @@ def main():
         elif choice == '2':
             follow_link()
         elif choice == '3':
+            return_to_initial_query(initial_url)
+        elif choice == '4':
             break
         else:
             print("Неверный выбор. Пожалуйста, попробуйте снова.")
